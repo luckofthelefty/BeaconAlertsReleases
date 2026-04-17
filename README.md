@@ -33,7 +33,6 @@ Desktop app for building and managing OBS overlay alerts with Streamer.bot. Runs
 
 - Windows 10+ (64-bit)
 - [Streamer.bot](https://streamer.bot) (running on the same PC as OBS)
-- StreamElements account (optional, for TTS)
 
 ---
 
