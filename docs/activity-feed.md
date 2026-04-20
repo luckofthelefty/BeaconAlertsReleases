@@ -1,6 +1,6 @@
 # Activity Feed
 
-The activity feed shows every event that comes in from Streamer.bot in real time. You can use it to monitor what is happening on your stream, check event data for building alert conditions, and replay events to test alerts.
+The activity feed shows every event that comes in from Streamer.bot in real time. You can use it to monitor what is happening on your stream and check event data for building alert conditions.
 
 ---
 
@@ -8,7 +8,7 @@ The activity feed shows every event that comes in from Streamer.bot in real time
 
 The feed connects to Streamer.bot over a local WebSocket at `ws://127.0.0.1:8080` by default. If your Streamer.bot WebSocket server is on a different port, you can change the URL in the connection settings panel.
 
-The connection status indicator at the top shows whether the feed is currently connected.
+The connection status indicator at the top shows whether the feed is currently connected. To change the URL, click the gear icon at the top right of the page and enter the new address, then click **Reconnect**.
 
 ---
 
@@ -28,17 +28,17 @@ Click the chevron on the right of any row to expand it and see the full event da
 
 ## Tabs
 
-The tab bar at the top groups events by service (Twitch, YouTube, etc.). Click a tab to filter the feed to that service. You can reorder tabs by dragging them.
+The tab bar at the top groups events by service (Twitch, YouTube, etc.). Click a tab to filter the feed to that service.
 
-To add or remove service tabs, open the connection settings panel and toggle services on or off.
+To add or remove service tabs, click the **+** button at the right end of the tab bar and check or uncheck the services you want.
 
 ---
 
 ## Filtering event types
 
-Some event types are hidden by default because they are noisy and not usually useful (chat messages, viewer count updates, connection lifecycle events, etc.). You can control which types are shown using the event type filter in the connection settings panel.
+Some event types are hidden by default because they are noisy and not usually useful (chat messages, viewer count updates, connection lifecycle events, etc.).
 
-Click the filter icon on any tab to search for a specific event type and toggle it on or off.
+Right-click any service tab to open a menu with a **Filter events** option. This opens a searchable list of event types for that service where you can toggle each one on or off. From here you can also select all, deselect all, or reset to defaults.
 
 ---
 
@@ -63,9 +63,18 @@ Customizations are saved to your browser's local storage and persist between ses
 
 ---
 
-## Replaying events
+## Alert queue controls
 
-You can replay any event in the feed to trigger alerts as if the event had just happened. This is useful for testing without going live.
+Below the event feed there is an **Alert Queues** panel. This lets you monitor and control your alert queues without leaving the activity feed.
+
+Global controls (apply to all queues at once):
+
+- **Pause / Resume** - stops new alerts from playing across all queues. Events that arrive while paused stay in the queue.
+- **Skip** - cuts the currently playing alert short on every queue.
+- **Clear** - drops all queued alerts on every queue.
+- **Mute TTS / Unmute TTS** - silences or restores text-to-speech across all queues.
+
+Expand the panel with the arrow to see per-queue controls. Each row shows the queue name, blocking/non-blocking status, which overlays are assigned (and whether they are loaded in OBS), the currently playing alert, and how many are waiting. The same pause, skip, clear, and mute controls are available per queue.
 
 ---
 

@@ -80,4 +80,4 @@ In the alert editor, click the **Test** button in the top bar. This plays the al
 - [Alerts and Variants](alerts-and-variants.md) - conditions, variants, match modes
 - [Visual Editor](visual-editor.md) - layers, animations, and the canvas
 - [Queues](queues.md) - control how alerts are ordered and timed
-- [Activity Feed](activity-feed.md) - view and replay stream events
+- [Activity Feed](activity-feed.md) - view stream events

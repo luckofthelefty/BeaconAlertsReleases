@@ -26,19 +26,20 @@ If an overlay has no queue assigned, its alerts play immediately without any que
 
 ---
 
-## Queue controls
+## Queue card controls
 
-Each queue card in the Queues page shows which overlays are using it. You can:
+Each queue card in the Queues page shows the queue name, whether it is blocking or non-blocking, and a list of the overlays assigned to it.
 
-- **Pause** - stops new alerts from playing. Events that come in while paused will wait in the queue.
-- **Skip** - skips the currently playing alert and moves to the next one.
-- **Clear** - removes all waiting alerts from the queue.
-- **Mute** - alerts still play but TTS is silenced.
+From the card you can:
+
+- **Toggle blocking/non-blocking** - click the badge on the card to switch the queue type.
+- **Rename** - click the pencil icon. Only owners and admins can rename.
+- **Delete** - click the trash icon and confirm with the checkmark. Only owners and admins can delete. Overlays that were using the deleted queue will fall back to no queue.
 
 ---
 
-## Renaming and deleting
+## Controlling playback
 
-Click the pencil icon on a queue card to rename it.
+Pause, skip, clear, and mute controls for queues are in the **Activity Feed** page, not here. The Activity Feed has both global controls that apply to all queues at once and per-queue controls in the expandable queue panel at the bottom of the feed.
 
-To delete a queue, click the trash icon and confirm with the checkmark. Overlays that were using the deleted queue will fall back to no queue.
+See [Activity Feed](activity-feed.md) for details.
