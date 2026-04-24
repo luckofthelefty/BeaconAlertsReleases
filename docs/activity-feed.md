@@ -42,6 +42,16 @@ Right-click any service tab to open a menu with a **Filter events** option. This
 
 ---
 
+## Replaying events
+
+Click **Replay** on any expanded event row to send that event through your overlays as if it had just arrived live from Streamer.bot. All overlays in your workspace will process the event, evaluate variant conditions, and queue any matching alerts.
+
+This is useful for testing alert configurations without having to wait for a real follow, sub, or donation to come in.
+
+The button label briefly changes to **Fired** to confirm the event was dispatched.
+
+---
+
 ## Customizing event display
 
 Each event type can be customized to show different information or use different colors. Click **Customize** on any expanded event row to enter edit mode.
