@@ -82,6 +82,11 @@ Download the latest installer from the [Releases](https://github.com/luckofthele
 
 ## What's New
 
+### v0.5.10
+
+- Fixed variant priority ordering. Variants created before this update all shared the same sort order, so priority mode (top-most match wins) could pick the wrong variant. Existing variants are automatically fixed on first launch.
+- New variants now get the correct sort position when created, so priority order works immediately without needing to drag-reorder.
+
 ### v0.5.9
 
 - Fixed: when multiple overlay instances were open (OBS browser source plus the preview pane), they could each independently pick a different alert for the same event, causing both to play. Alert selection is now deterministic across all instances so only one alert fires per event.
