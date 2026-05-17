@@ -82,6 +82,11 @@ Download the latest installer from the [Releases](https://github.com/luckofthele
 
 ## What's New
 
+### v0.5.12
+
+- Fixed replayed activity events so they now run full variant resolution before playback (same behavior as live/simulated events).
+- Added temporary variant debug logging in the overlay SDK to help diagnose condition matching and chosen variant behavior in preview console.
+
 ### v0.5.10
 
 - Fixed variant priority ordering. Variants created before this update all shared the same sort order, so priority mode (top-most match wins) could pick the wrong variant. Existing variants are automatically fixed on first launch.
