@@ -82,6 +82,12 @@ Download the latest installer from the [Releases](https://github.com/luckofthele
 
 ## What's New
 
+### v0.5.13
+
+- File inputs now show readable media filenames instead of raw file IDs/URL tails across visual and advanced editors (audio, image, video, and file fields).
+- TTS now strips leading Twitch cheer tokens before speech (for example, "Cheer200 ..."). Repeated leading cheer tokens are also stripped.
+- Replayed activity events continue to run full variant resolution before playback (same behavior as live/simulated events).
+
 ### v0.5.12
 
 - Fixed replayed activity events so they now run full variant resolution before playback (same behavior as live/simulated events).
