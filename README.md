@@ -48,7 +48,6 @@ Media library
 - Tracks which alerts are using a file before you delete it
 
 Other
-- Text-to-speech via StreamElements (optional, requires a free account)
 - Embedded database, no separate install needed
 - Auto-updates
 
@@ -78,6 +77,20 @@ Download the latest installer from the [Releases](https://github.com/luckofthele
 - [Queues](docs/queues.md)
 - [Media Library](docs/media-library.md)
 - [Settings](docs/settings.md)
+
+---
+
+## What's New
+
+### v0.5.9
+
+- Fixed: when multiple overlay instances were open (OBS browser source plus the preview pane), they could each independently pick a different alert for the same event, causing both to play. Alert selection is now deterministic across all instances so only one alert fires per event.
+
+### v0.5.8
+
+- Added weighted chance per alert. When multiple alerts are set to the same event type, you can assign a percentage to each one and the app will randomly pick one based on those weights. Leave all at 100 for equal odds. The chance input appears on each alert row in the dashboard.
+- Fixed audio layers not playing in overlays.
+- Fixed image and audio layer settings mixing together when switching a layer between types.
 
 ---
 
