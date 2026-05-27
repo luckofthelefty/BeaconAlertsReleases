@@ -3,8 +3,10 @@
 ## What you need
 
 - Windows 10 or later (64-bit)
-- [Streamer.bot](https://streamer.bot) installed and running on the same PC as OBS
 - OBS Studio or any software that supports browser sources
+- One of the following for live events:
+  - [Streamer.bot](https://streamer.bot) installed and running on the same PC as OBS, **or**
+  - A BeaconCloud subscription (no local software required, see [docs.beaconalerts.app](https://docs.beaconalerts.app))
 
 ---
 
@@ -39,7 +41,7 @@ Inside the overlay, click **+ New** in the alerts panel on the right. Type a nam
 
 This opens the alert editor. From here:
 
-1. Set the **event type** in the top bar. This is the Streamer.bot event that triggers the alert, like `Twitch.Follow`.
+1. Set the **event type** in the top bar. This is the event that triggers the alert, like `Twitch.Follow`.
 2. Add layers to the canvas using the buttons in the layers panel on the left (text, image, video, audio, etc.).
 3. Position and style each layer using the properties panel on the right.
 4. Set animations on each layer in the Animation section of the properties panel.
@@ -58,13 +60,25 @@ Go back to the overlay page and click **Copy URL**. In OBS:
 
 ---
 
-## Step 4 - Connect Streamer.bot
+## Step 4 - Connect a source
 
-Beacon Alerts talks to Streamer.bot over a local WebSocket connection.
+Choose one of the two ways to get live events into Beacon Alerts.
+
+### Option A: Streamer.bot (local)
+
+Beacon Alerts connects to Streamer.bot over a local WebSocket connection.
 
 In Streamer.bot, go to **Servers/Clients > WebSocket Server** and make sure it is enabled and running on `127.0.0.1:8080`. That is the default, so it should already be set up.
 
-The overlay connects automatically when it loads in OBS. You can confirm it is working by checking the Activity Feed in Beacon Alerts. Events should start appearing when Streamer.bot fires them.
+The overlay connects automatically when it loads in OBS. You can confirm it is working by checking the Activity Feed. Events will appear when Streamer.bot fires them.
+
+### Option B: BeaconCloud (cloud)
+
+BeaconCloud sends Twitch, Ko-fi, Streamlabs, and StreamElements events to your app without needing Streamer.bot.
+
+Go to **Settings > Connections > BeaconCloud**, paste your connection token, and click **Save & Connect**. Get a token at [cloud.beaconalerts.app](https://cloud.beaconalerts.app).
+
+See [docs.beaconalerts.app](https://docs.beaconalerts.app) for full setup instructions.
 
 ---
 
@@ -81,3 +95,4 @@ In the alert editor, click the **Test** button in the top bar. This plays the al
 - [Visual Editor](visual-editor.md) - layers, animations, and the canvas
 - [Queues](queues.md) - control how alerts are ordered and timed
 - [Activity Feed](activity-feed.md) - view stream events
+- [Settings](settings.md) - connections, audio, appearance, and system options

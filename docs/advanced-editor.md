@@ -4,22 +4,30 @@ The advanced editor is a full HTML/CSS/JS code sandbox. Use it for overlays that
 
 ---
 
-## Tabs
+## Layout
 
-The editor has four tabs across the top:
+The editor has two main sections:
 
-- **HTML** - the page markup
-- **CSS** - styles applied to the page
-- **JavaScript** - code that runs in the overlay
-- **Fields** - a JSON schema that defines configurable settings for the overlay
+- **Left side** - the code editor with tabs across the top.
+- **Right side** - a live preview of the overlay. Drag the divider between them to adjust the split.
+- **Bottom** - a console panel for debugging. Drag the console divider to resize it.
 
-The live preview on the right updates 500ms after you stop typing.
+---
+
+## Code tabs
+
+- **HTML** - the page markup.
+- **CSS** - styles applied to the page.
+- **JavaScript** - code that runs in the overlay.
+- **Fields** - a JSON schema that defines configurable settings for the overlay.
+
+The live preview updates a short time after you stop typing.
 
 ---
 
 ## The BEACON API
 
-When your overlay loads in OBS, a `BEACON` global is injected automatically. Use it to listen for Streamer.bot events.
+When your overlay loads in OBS, a `BEACON` global is injected automatically. Use it to listen for events.
 
 ```js
 // Listen for a specific event
@@ -49,6 +57,30 @@ BEACON.off();
 ```
 
 If you have defined fields (see below), their current values are available in `BEACON.fieldData`.
+
+---
+
+## Event data
+
+Event data is normalized across all sources. Fields like `user`, `displayName`, `userName`, `userId`, and `tier` are available consistently regardless of whether the event came from Streamer.bot, BeaconCloud, or another source.
+
+---
+
+## Snippets
+
+Click **Snippets** in the top bar to open a panel with ready-to-use code examples. Click any snippet to insert it at the current cursor position in the editor. Snippets cover common patterns like event listeners, show/hide helpers, CSS animations, and HTML structures.
+
+---
+
+## Event type
+
+Set an event type in the top bar to bind the preview to a specific event. This controls which sample data is used when you click **Test** and which variable suggestions appear.
+
+---
+
+## Testing
+
+Click **Test** to fire a test event to the preview. Check the **Live** box to also fire it on all connected browser sources (OBS, etc.).
 
 ---
 
@@ -101,6 +133,12 @@ Supported field types:
 Fields can be grouped into collapsible sections using the `group` property.
 
 In your HTML and CSS, use `{{fieldKey}}` to reference field values. These are replaced automatically when the preview renders.
+
+---
+
+## Console
+
+The console panel at the bottom of the editor lets you debug your overlay code. It captures `console.log`, `console.error`, and other console output from the preview iframe. You can also type expressions into the console input and run them against the live preview context.
 
 ---
 

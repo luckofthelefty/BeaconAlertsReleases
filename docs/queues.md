@@ -33,8 +33,8 @@ Each queue card in the Queues page shows the queue name, whether it is blocking 
 From the card you can:
 
 - **Toggle blocking/non-blocking** - click the badge on the card to switch the queue type.
-- **Rename** - click the pencil icon. Only owners and admins can rename.
-- **Delete** - click the trash icon and confirm with the checkmark. Only owners and admins can delete. Overlays that were using the deleted queue will fall back to no queue.
+- **Rename** - click the pencil icon.
+- **Delete** - click the trash icon and confirm with the checkmark. Overlays that were using the deleted queue will fall back to no queue.
 
 ---
 
