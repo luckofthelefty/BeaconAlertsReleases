@@ -1,18 +1,19 @@
 # Beacon Alerts
 
-A desktop app for building and running stream overlay alerts. It runs entirely on your machine with a local server and embedded database. No accounts, no cloud services required.
+A desktop app for building and running stream overlay alerts. It runs entirely on your machine with a local server and embedded database.
 
-Pair it with [Streamer.bot](https://streamer.bot) and alerts will play in OBS automatically whenever events happen on your stream.
+Connect to [Streamer.bot](https://streamer.bot) for a local event source, or use [BeaconCloud](https://cloud.beaconalerts.app) to receive Twitch, Ko-fi, Streamlabs, and StreamElements events through the cloud with no local setup required.
 
 ---
 
 ## How it works
 
 1. Launch the app. The local server and database start automatically.
-2. Create an overlay using the drag-and-drop editor or the HTML/CSS/JS code sandbox.
-3. Add alerts to the overlay and pick which Streamer.bot events trigger each one.
-4. Copy the overlay URL and paste it into OBS as a Browser Source.
-5. When an event comes in, the matching alert plays.
+2. Connect an event source: Streamer.bot over a local WebSocket, or BeaconCloud with a connection token.
+3. Create an overlay using the drag-and-drop editor, the HTML/CSS/JS code sandbox, or a widget template.
+4. Add alerts to the overlay and pick which events trigger each one.
+5. Copy the overlay URL and paste it into OBS as a Browser Source.
+6. When an event comes in, the matching alert plays.
 
 ---
 
@@ -21,13 +22,19 @@ Pair it with [Streamer.bot](https://streamer.bot) and alerts will play in OBS au
 Overlays
 - Drag-and-drop visual editor with layers, animations, and a properties panel
 - Full HTML/CSS/JS code sandbox with live preview and configurable fields
-- Export and import overlays as .beacon files
+- Widget overlays that stay visible and update in response to events
+- Export overlays as .beacon files, with an option to bundle media files
+- Import .beacon files by drag and drop or from the Import button
 
 Alerts
-- Multiple alerts per overlay, each tied to a Streamer.bot event type
-- Variants let you play different animations based on conditions (e.g. T3 subs vs T1)
+- Multiple alerts per overlay, each bound to one or more event types
+- Weighted chance per alert when multiple alerts match the same event
+- Variants let you play different animations based on conditions
+- Condition builder with simple AND rules or advanced AND/OR groups
+- Duplicate variants from the overlay page
 - Choose priority mode (first matching variant wins) or random mode
 - Per-alert duration, queue behavior, and optional text-to-speech
+- Keyframe animator for per-layer timeline animation
 - Show and hide animations per layer with type, direction, duration, and delay
 
 Queues
@@ -36,27 +43,34 @@ Queues
 - Pause, skip, clear, and mute controls in the dashboard
 
 Activity feed
-- Live feed of every incoming Streamer.bot event
-- Filter by service and event type, search by name
+- Live feed of events from Streamer.bot and BeaconCloud
+- Filter by service and event type
 - Expand any event to see the full data payload
 - Replay past events from the feed
 - Customize badge labels, display templates, and colors per event type
 
+Connections
+- Streamer.bot: connect via local WebSocket
+- BeaconCloud: receive Twitch, Ko-fi, Streamlabs, and StreamElements events through the cloud
+
 Media library
 - Manage images, video, audio, and GIFs locally
-- No file uploads to external services
 - Tracks which alerts are using a file before you delete it
 
 Other
+- Text-to-speech via ElevenLabs or Amazon Polly
 - Embedded database, no separate install needed
-- Auto-updates
+- Auto-updates with automatic database backups before each update
 
 ---
 
 ## Requirements
 
 - Windows 10 or later (64-bit)
-- [Streamer.bot](https://streamer.bot) running on the same PC as OBS
+- OBS Studio or any software that supports browser sources
+- One of the following for live events:
+  - [Streamer.bot](https://streamer.bot) running on the same PC as OBS, or
+  - A [BeaconCloud](https://cloud.beaconalerts.app) subscription
 
 ---
 
@@ -78,33 +92,40 @@ Download the latest installer from the [Releases](https://github.com/luckofthele
 - [Media Library](docs/media-library.md)
 - [Settings](docs/settings.md)
 
+For BeaconCloud setup and subscription info, see [docs.beaconalerts.app](https://docs.beaconalerts.app).
+
 ---
 
 ## What's New
 
+### v0.6.x
+
+- BeaconCloud integration: receive Twitch, Ko-fi, Streamlabs, and StreamElements events through the cloud without a local Streamer.bot install.
+- Activity feed: right-click any service tab to filter which event types appear. Info icon in the feed header explains the controls.
+- Activity feed: StreamElements and Streamlabs events now display with formatted badges, meta lines, and tier info matching the Twitch event style.
+- Activity feed: SE subscriber events with 2 or more cumulative months are classified as ReSub automatically.
+
 ### v0.5.13
 
-- File inputs now show readable media filenames instead of raw file IDs/URL tails across visual and advanced editors (audio, image, video, and file fields).
-- TTS now strips leading Twitch cheer tokens before speech (for example, "Cheer200 ..."). Repeated leading cheer tokens are also stripped.
-- Replayed activity events continue to run full variant resolution before playback (same behavior as live/simulated events).
+- File inputs now show readable media filenames instead of raw file IDs across visual and advanced editors.
+- TTS now strips leading Twitch cheer tokens before speech (for example, "Cheer200 ...").
+- Replayed activity events run full variant resolution before playback, matching live event behavior.
 
 ### v0.5.12
 
-- Fixed replayed activity events so they now run full variant resolution before playback (same behavior as live/simulated events).
-- Added temporary variant debug logging in the overlay SDK to help diagnose condition matching and chosen variant behavior in preview console.
+- Fixed replayed activity events so they now run full variant resolution before playback.
 
 ### v0.5.10
 
-- Fixed variant priority ordering. Variants created before this update all shared the same sort order, so priority mode (top-most match wins) could pick the wrong variant. Existing variants are automatically fixed on first launch.
-- New variants now get the correct sort position when created, so priority order works immediately without needing to drag-reorder.
+- Fixed variant priority ordering. Variants created before this update all shared the same sort order. Existing variants are automatically fixed on first launch.
 
 ### v0.5.9
 
-- Fixed: when multiple overlay instances were open (OBS browser source plus the preview pane), they could each independently pick a different alert for the same event, causing both to play. Alert selection is now deterministic across all instances so only one alert fires per event.
+- Fixed: when multiple overlay instances were open (OBS browser source plus the preview pane), they could each independently pick a different alert for the same event. Alert selection is now deterministic across all instances.
 
 ### v0.5.8
 
-- Added weighted chance per alert. When multiple alerts are set to the same event type, you can assign a percentage to each one and the app will randomly pick one based on those weights. Leave all at 100 for equal odds. The chance input appears on each alert row in the dashboard.
+- Added weighted chance per alert. When multiple alerts are set to the same event type, assign a percentage to each one and the app picks one based on those weights.
 - Fixed audio layers not playing in overlays.
 - Fixed image and audio layer settings mixing together when switching a layer between types.
 
