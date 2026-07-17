@@ -8,89 +8,86 @@ An alert is a canvas animation that plays when a specific event fires. Each over
 
 ### Creating an alert
 
-On the overlay page, click **+ New Alert** in the alerts panel. Type a name and press Enter. The alert editor opens.
+On the overlay page, click **+ New Alert**. Type a name and press Enter. The alert editor opens.
 
-From the top bar, set:
+The collapsible **Alert Settings** panel on the left has three tabs:
 
-- **Event type** - the event that triggers this alert (e.g. `Twitch.Follow`, `Twitch.Sub`). An alert can respond to multiple event types.
-- **Duration** - how long the alert plays in milliseconds.
-- **Queue behavior** - whether this alert joins the queue or plays immediately.
+- **Event** - which events trigger the alert, plus filters and queue behavior.
+- **Duration** - how long the alert holds on screen, in milliseconds.
+- **TTS** - optional text-to-speech for this alert.
 
-Then build the alert using the canvas and layers. See [Visual Editor](visual-editor.md) for details.
+Then build the alert on the canvas. See [Visual Editor](visual-editor.md).
 
-### Enabling and disabling alerts
+### Choosing events
 
-Each alert has a toggle on the overlay page. Disabled alerts will not play even when the event fires.
+Click **Choose events** in the Event tab to open the event picker. It has three tabs: **Twitch** (native events from your login), **Streamer.bot**, and **Cloud** (locked until a LuckyBot Cloud token is configured). An alert can respond to any number of event types.
 
-### Chance
+Extra filters appear for certain events:
 
-Each alert has a chance percentage (0 to 100). When multiple alerts are bound to the same event type, Beacon picks one to play based on these weights. Set all alerts to 100 for equal odds. Leave a chance at 0 to disable weighted selection for that alert.
+- **Command filter** - for chat command events, only fire for a specific command.
+- **Reward filter** - for channel point events, only fire for specific rewards.
+- **Only fire when** - a condition that gates the whole alert, using the same condition builder as variants.
 
-Variants also have their own chance percentage, used when multiple variants match the same event.
+### Queue behavior
 
-### Renaming and deleting
+When the overlay is assigned to a blocking queue, each alert picks how it joins:
 
-Click the pencil icon to rename an alert inline. Press Enter to confirm or Escape to cancel. You can also right-click an alert row for a context menu with rename, add variant, and delete options.
+- **Queue** - waits its turn.
+- **Skip Queue** - plays immediately alongside whatever else is playing.
+- **Skip if Busy** - plays only if nothing else is playing, otherwise it is dropped.
+- **Replace Same** - replaces a queued alert of the same type instead of stacking up.
 
-To delete, click the trash icon and confirm. The alert is removed from view immediately, but you have a few seconds to undo the deletion using the Undo button in the notification.
+### Chaining
+
+**Chain to Alert** plays another alert automatically when this one finishes. Use it for multi-part sequences.
+
+### Enabling, chance, renaming
+
+- Each alert has an enable toggle on the overlay page. Disabled alerts never play.
+- Each alert has a chance percentage. When multiple alerts are bound to the same event, LuckyBot picks one based on these weights.
+- Rename with the pencil icon, or right-click an alert row for rename, add variant, and delete options. Deletions can be undone for a few seconds from the notification.
 
 ---
 
 ## Variants
 
-Variants let you play a different version of an alert based on conditions. For example, you can show a different animation for T3 subs vs T1 subs, or play a special alert for raids over 100 viewers.
+Variants play a different version of an alert based on conditions: a special animation for Tier 3 subs, a bigger alert for raids over 100 viewers, and so on.
 
-Each variant has its own canvas layout, its own duration, and its own condition rules. The parent alert acts as the default that plays when no variant condition matches.
+Each variant has its own canvas layout, duration, and condition rules. The parent alert is the default when no variant matches.
 
 ### Creating a variant
 
-Right-click an alert row and select **+ New Variant**. Give the variant a name. It will open in the editor where you can build its canvas and set its condition.
-
-You can also duplicate an existing variant using the right-click menu on a variant row. Duplicating copies the canvas layout and condition, then opens the copy in the editor.
+Right-click an alert row and choose **+ New Variant**, or use **Duplicate & Edit** on an existing variant to copy its canvas and conditions.
 
 ### Variant conditions
 
-Click **Variant Setup** in the top bar of the variant editor to open the condition builder.
+Click **Variant Setup** in the top bar of the variant editor.
 
-The condition builder has two modes:
+- **Simple view** - one condition per row, all joined with AND. Quick-condition chips cover common cases like sub tiers.
+- **Advanced view** - condition groups with AND and OR logic, nestable, with a Wrap Selected action for grouping existing rules.
 
-- **Simple view** - add one condition at a time, all joined with AND. Use this for most cases, like `tier >= 3000` or `months >= 6`.
-- **Advanced view** - build condition groups with AND and OR logic, and nest groups inside each other for complex rules.
+A condition has a field name, an operator (`==`, `!=`, `>`, `>=`, `<`, `<=`), and a value. A variables panel lists known fields from live events; the [Activity Feed](activity-feed.md) shows the full payload of any real event.
 
-A condition rule has three parts: a field name, an operator, and a value.
-
-Supported operators: `==`, `!=`, `>`, `>=`, `<`, `<=`
-
-Field names come from the event payload. You can check the Activity Feed to see what fields are available for a given event type. The condition builder also shows a list of known fields from live events and lets you click them to insert.
-
-If a variant has no conditions set, it will match every event of the parent type and always play.
+A variant with no conditions matches every event of the parent type.
 
 ### Match mode
 
-When an alert has variants, you can choose how Beacon picks which one to play if more than one condition matches.
+When an alert has variants, the **Matching** dropdown on the alert row picks how ties are resolved:
 
-- **Priority** - plays the first matching variant based on the order they are listed. Drag variants to reorder them.
-- **Random** - picks randomly from all matching variants.
+- **Priority (top-most)** - the first matching variant in list order wins. Drag variants to reorder.
+- **Random among matches** - picks randomly from all matching variants.
 
-The match mode dropdown appears below the alert name when the alert is expanded.
-
-### Variant order
-
-Drag and drop variants to reorder them. Order matters in priority mode since the first match wins.
+Variants also have their own chance percentage.
 
 ---
 
 ## Text-to-speech
 
-Each alert and variant can have TTS configured independently. Open the TTS panel in the top bar of the editor.
+Each alert and variant configures TTS independently, in the **TTS** tab of the Alert Settings panel:
 
-Options:
+- Enable TTS for this alert.
+- Message template with insertable `{{variable}}` chips (for example `{{user}} just followed!`).
+- Volume (0 to 100) and delay in milliseconds.
+- Voice override, if you want a different voice than the default.
 
-- Enable or disable TTS for this alert.
-- Voice selection.
-- Text template using `{variable}` placeholders from the event data (e.g. `{user} just followed!`).
-- Volume (0 to 100).
-- Delay in seconds before TTS plays.
-- Option to announce the action name before the message.
-
-TTS uses the provider configured in **Settings > Audio**. See [Settings](settings.md) for setup.
+The provider and default voice are configured in **Settings > Audio**. See [Settings](settings.md).

@@ -6,40 +6,42 @@ Queues control how alerts are played back. Without a queue, all alerts fire the 
 
 ## Queue types
 
-**Blocking** - alerts play one at a time. Each alert waits for the previous one to finish before it starts. Use this when you want alerts to play cleanly in sequence.
+**Blocking** - alerts play one at a time. Each alert waits for the previous one to finish. Use this when alerts should play cleanly in sequence.
 
-**Non-blocking** - alerts play immediately regardless of what else is playing. Use this for things like sound effects or overlays that do not need to be sequential.
+**Non-blocking** - alerts play immediately regardless of what else is playing. Use this for sound effects or anything that does not need to wait.
 
 ---
 
 ## Creating a queue
 
-Go to **Queues** in the sidebar and click **+ New Queue**. Give it a name. New queues start as blocking by default. You can toggle the type after creation.
+Go to **Queues** in the sidebar and click **+ New Queue**. Give it a name. New queues start as blocking; click the badge on the card to switch type.
 
 ---
 
 ## Assigning overlays to a queue
 
-Queues are assigned per overlay. On the Overlays page, each overlay card has a queue dropdown. Pick the queue you want that overlay's alerts to use.
+Queues are assigned per overlay. On the Overlays page, each basic or advanced overlay card has a queue dropdown. Widgets and static overlays do not queue, so the picker does not appear for them.
 
-If an overlay has no queue assigned, its alerts play immediately without any queuing.
+If an overlay has no queue assigned, its alerts play immediately without queuing.
+
+---
+
+## Per-alert queue behavior
+
+Within a blocking queue, each alert chooses how it joins in its Alert Settings: **Queue** (wait in line), **Skip Queue** (play immediately), **Skip if Busy** (play only when idle), or **Replace Same** (replace a queued alert of the same type). See [Alerts and Variants](alerts-and-variants.md).
 
 ---
 
 ## Queue card controls
 
-Each queue card in the Queues page shows the queue name, whether it is blocking or non-blocking, and a list of the overlays assigned to it.
+Each queue card shows the name, the blocking or non-blocking badge, and the assigned overlays.
 
-From the card you can:
-
-- **Toggle blocking/non-blocking** - click the badge on the card to switch the queue type.
+- **Toggle blocking/non-blocking** - click the badge.
 - **Rename** - click the pencil icon.
-- **Delete** - click the trash icon and confirm with the checkmark. Overlays that were using the deleted queue will fall back to no queue.
+- **Delete** - click the trash icon and confirm. Overlays using the deleted queue fall back to no queue.
 
 ---
 
 ## Controlling playback
 
-Pause, skip, clear, and mute controls for queues are in the **Activity Feed** page, not here. The Activity Feed has both global controls that apply to all queues at once and per-queue controls in the expandable queue panel at the bottom of the feed.
-
-See [Activity Feed](activity-feed.md) for details.
+Pause, skip, clear, and mute controls live on the **Activity Feed** page: global controls that apply to every queue, and per-queue controls in the expandable Alert Queues panel. See [Activity Feed](activity-feed.md).

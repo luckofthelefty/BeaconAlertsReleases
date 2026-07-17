@@ -1,16 +1,14 @@
 # Advanced Editor
 
-The advanced editor is a full HTML/CSS/JS code sandbox. Use it for overlays that need custom code, like a Spotify Now Playing widget, a chat overlay, or anything the visual editor cannot handle.
+The advanced editor is a full HTML/CSS/JS code sandbox. Use it for overlays that need custom code, or start from one of the built-in advanced templates (Spotify Now Playing, Twitch Polls, Twitch Predictions, Weather, Closed Captions, Sound Alerts, Custom WebSocket Feed).
 
 ---
 
 ## Layout
 
-The editor has two main sections:
-
-- **Left side** - the code editor with tabs across the top.
-- **Right side** - a live preview of the overlay. Drag the divider between them to adjust the split.
-- **Bottom** - a console panel for debugging. Drag the console divider to resize it.
+- **Left** - the code editor with tabs across the top.
+- **Right** - a live preview of the overlay. Drag the divider to adjust the split.
+- **Bottom** - a console panel for debugging. Drag its divider to resize.
 
 ---
 
@@ -21,13 +19,13 @@ The editor has two main sections:
 - **JavaScript** - code that runs in the overlay.
 - **Fields** - a JSON schema that defines configurable settings for the overlay.
 
-The live preview updates a short time after you stop typing.
+The live preview updates shortly after you stop typing. Save with the **Save** button or Ctrl+S.
 
 ---
 
 ## The BEACON API
 
-When your overlay loads in OBS, a `BEACON` global is injected automatically. Use it to listen for events.
+When your overlay loads, a `BEACON` global is injected automatically. Use it to listen for events:
 
 ```js
 // Listen for a specific event
@@ -39,115 +37,59 @@ BEACON.on('Twitch.Follow', (data) => {
 BEACON.on('*', (type, data) => {
   console.log(type, data);
 });
-
-// Stop listening
-BEACON.off();
 ```
 
-`BEACON.config` contains metadata about the overlay:
-
-```js
-{
-  overlayId: '...',
-  name: 'My Overlay',
-  token: '...',
-  width: 1920,
-  height: 1080
-}
-```
-
-If you have defined fields (see below), their current values are available in `BEACON.fieldData`.
-
----
-
-## Event data
-
-Event data is normalized across all sources. Fields like `user`, `displayName`, `userName`, `userId`, and `tier` are available consistently regardless of whether the event came from Streamer.bot, BeaconCloud, or another source.
+Event data is normalized across sources, so fields like `user`, `displayName`, `userId`, and `tier` are consistent whether the event came from Twitch directly, Streamer.bot, or LuckyBot Cloud. Overlays also receive live stats variables and chat commands, which the built-in templates use.
 
 ---
 
 ## Snippets
 
-Click **Snippets** in the top bar to open a panel with ready-to-use code examples. Click any snippet to insert it at the current cursor position in the editor. Snippets cover common patterns like event listeners, show/hide helpers, CSS animations, and HTML structures.
-
----
-
-## Event type
-
-Set an event type in the top bar to bind the preview to a specific event. This controls which sample data is used when you click **Test** and which variable suggestions appear.
+Click **Snippets** in the top bar to open ready-to-use code examples. Click any snippet to insert it at the cursor. Snippets cover event listeners, show and hide helpers, CSS animations, and HTML structures.
 
 ---
 
 ## Testing
 
-Click **Test** to fire a test event to the preview. Check the **Live** box to also fire it on all connected browser sources (OBS, etc.).
+Set an event type in the top bar to bind the preview to sample data, then click **Test** to fire a test event at the preview. Check **Live** to also fire it on all connected browser sources.
 
 ---
 
 ## Fields
 
-The Fields tab lets you define a JSON schema for settings that appear as form controls in the settings panel. This is useful if you want to make something configurable without editing code each time.
-
-Example:
-
-```json
-{
-  "textColor": {
-    "label": "Text color",
-    "type": "colorpicker",
-    "default": "#ffffff"
-  },
-  "fontSize": {
-    "label": "Font size",
-    "type": "slider",
-    "min": 12,
-    "max": 72,
-    "default": 32
-  },
-  "showBackground": {
-    "label": "Show background",
-    "type": "checkbox",
-    "default": true
-  }
-}
-```
+The Fields tab defines settings that appear as form controls on the overlay's settings panel, so things stay configurable without editing code. Use the **+ Add Field** button to build a field without writing JSON.
 
 Supported field types:
 
 | Type | Description |
 |------|-------------|
-| `text` | Single-line text input |
-| `textarea` | Multi-line text input |
-| `number` | Number input (supports min, max, step) |
-| `checkbox` | Boolean toggle |
-| `colorpicker` | Color swatch and hex input |
-| `slider` | Range slider |
-| `dropdown` | Select from a list (add an `options` object) |
-| `url` | URL input |
-| `image-input` | Text field for an image path |
-| `video-input` | Text field for a video path |
-| `sound-input` | Text field for an audio path |
-| `hidden-info` | Read-only display with a copy button |
-| `button` | Opens a URL |
+| Text | Single-line text input |
+| Textarea | Multi-line text input |
+| Number | Number input (min, max, step) |
+| Slider | Range slider |
+| Checkbox | Boolean toggle |
+| Color | Color swatch and hex input |
+| Dropdown | Select from a list of options |
+| Audio | Audio file path or media pick |
+| File | File path or media pick |
+| Hidden | Read-only display with a copy button |
 
-Fields can be grouped into collapsible sections using the `group` property.
+Fields can be grouped into collapsible sections with the `group` property. In your HTML and CSS, `{{fieldKey}}` references a field's value and is replaced when the overlay renders.
 
-In your HTML and CSS, use `{{fieldKey}}` to reference field values. These are replaced automatically when the preview renders.
+---
+
+## Template updates
+
+Overlays created from a built-in template remember which one. When a LuckyBot update improves that template, an **Update template** button appears in the editor. Clicking it replaces the overlay's code with the latest version while keeping your field values. Manual code edits are overwritten, so skip the update if you have customized the code.
 
 ---
 
 ## Console
 
-The console panel at the bottom of the editor lets you debug your overlay code. It captures `console.log`, `console.error`, and other console output from the preview iframe. You can also type expressions into the console input and run them against the live preview context.
+The console panel captures `console.log`, `console.error`, and other output from the preview. Type expressions into the console input to run them against the live preview. Check the console's **Live** box to also run typed snippets in every connected browser source, which is useful for debugging the overlay as it runs in OBS.
 
 ---
 
 ## Canvas size
 
-Use the canvas size dropdown in the top bar to pick a preset or enter a custom width and height. Changes apply immediately.
-
----
-
-## Saving
-
-Click **Save** or press Ctrl+S. The preview refreshes after saving.
+Use the canvas size control in the top bar to pick a preset or enter custom dimensions. Changes apply immediately.

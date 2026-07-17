@@ -1,173 +1,102 @@
 # Visual Editor
 
-The visual editor is the main way to build alerts in a basic overlay. It has three panels: layers on the left, the canvas in the center, and the properties panel on the right. The top bar holds the alert and canvas settings.
+The visual editor is the main way to build alerts in a basic overlay (and the canvas for static and widget overlays). It has the layers panel on the left, the canvas in the center, the properties panel on the right, and the Alert Settings panel docked on the left edge.
 
 ---
 
 ## Top bar
 
 - **Back button** - returns to the overlay page.
-- **Alert name** - click the name field to edit it inline.
-- **Unsaved indicator** - a label appears when there are unsaved changes.
-- **Canvas size** - click the current size to open a picker with preset sizes or a custom width and height input.
-- **Zoom** - click the minus and plus buttons to zoom in or out. Click the percentage number directly to type a custom zoom level. Click **Fit** to fit the canvas to the available space.
-- **Show Others / Hide Others** - toggles faint outlines of all other alerts in the same overlay on the canvas. Useful for aligning elements across alerts.
-- **Streamer.bot status** - a dot that shows whether the app is connected to Streamer.bot.
-- **Copy URL** - copies the overlay URL to the clipboard.
-- **Preview** - opens the overlay in a new browser tab.
-- **Variant Setup** - only visible when editing a variant. Opens the condition builder for this variant. See [Alerts and Variants](alerts-and-variants.md).
-- **Live checkbox** - when checked, the Test button also fires the alert on every connected browser source (OBS, etc.), not just the preview pane.
-- **Test** - plays the alert immediately using sample data so you can preview it in OBS.
-- **Test dropdown** - click the small arrow next to the Test button to open a panel where you can provide custom event data before testing.
+- **Alert name** - click to edit inline. An Unsaved indicator appears when there are changes.
+- **Canvas size** - presets (1080p, 1440p, 4K, 720p, Vertical) or a custom width and height.
+- **Zoom** - minus and plus buttons, click the percentage to type a value, **Fit** to fit the canvas to the window.
+- **Show Others / Hide Others** - toggles faint outlines of the other alerts in this overlay, for aligning elements across alerts.
+- **Streamer.bot status** - a dot showing the Streamer.bot connection (when configured).
+- **Copy URL** and **Preview** - the overlay URL for OBS and a new-tab preview.
+- **Variant Setup** - only when editing a variant; opens the condition builder.
+- **Simulate** - fires a full simulated event (sub, raid, and so on) through the overlay, exercising event matching and queues.
+- **Live checkbox** - when checked, Test also fires on every connected browser source (OBS included), not just the preview.
+- **Test** - plays the alert with sample data. The arrow next to it opens Test with custom data, where you can edit the event payload first.
 - **Save** - saves all changes. Ctrl+S also works.
+
+Widget overlays replace Test with an **Advanced Widget Setup** button. See [Widgets](widgets.md).
 
 ---
 
 ## Layers panel
 
-The layers panel on the left lists every box on the canvas for this alert. Layers are drawn in order from bottom to top.
+The layers panel lists every box on the canvas. Layers draw in order from bottom to top.
 
-### Adding layers
+Available layer types:
 
-Click one of the add buttons at the top of the panel to add a new layer. Available types:
-
-- **Text** - a text box. Supports variable placeholders from event data.
+- **Text** - a text box, with `{{variable}}` placeholders from event data.
 - **Image** - a static image from a URL or the media library.
 - **Video** - a video file, plays during the alert.
 - **GIF** - an animated GIF.
 - **Audio** - an audio file, plays during the alert.
-- **HTML** - raw HTML content for anything else.
+- **Progress** - a progress bar bound to a goal or counter (widget overlays).
 
-### Layer controls
-
-Each layer row has:
-
-- A visibility toggle (eye icon) - hidden layers are not shown during playback.
-- A lock toggle - locked layers cannot be selected or moved on the canvas.
-- A delete button.
-
-Click a layer to select it. The properties panel on the right will update to show that layer's settings.
-
-Drag layers in the list to reorder them. The order determines which layers appear in front of others.
+Each layer row has a visibility toggle, a lock toggle, and a delete button. Double-click to rename. Drag to reorder. Click a layer to select it and edit its settings in the properties panel.
 
 ---
 
 ## Canvas
 
-The canvas is the preview area in the center. It shows the alert at the set canvas size, scaled to fit your screen.
-
-### Moving and resizing
-
-Click a box to select it. Drag it to move. Use the handles on the edges and corners to resize.
-
-Hold Shift and use the arrow keys to move in 10px steps. Arrow keys alone move 1px at a time.
-
-### Multi-select
-
-Hold Ctrl and click to select multiple boxes. You can move them together.
-
-### Right-click menu
-
-Right-click any box on the canvas for options:
-
-- Bring to Front
-- Send to Back
-- Duplicate
-- Delete
-
-### Undo and redo
-
-Ctrl+Z to undo, Ctrl+Y or Ctrl+Shift+Z to redo. The editor keeps 50 undo steps. Rapid moves and resizes are merged into a single undo entry.
+- Click a box to select it, drag to move, use the handles to resize.
+- Arrow keys nudge 1px; Shift + arrows nudge 10px.
+- Ctrl-click to select multiple boxes and move them together.
+- Right-click a box for Bring to Front, Send to Back, Duplicate, and Delete.
+- Ctrl+Z to undo, Ctrl+Y or Ctrl+Shift+Z to redo. Rapid moves merge into a single undo step.
 
 ---
 
 ## Properties panel
 
-The properties panel on the right shows the settings for the selected layer. The sections available depend on the layer type.
+The properties panel has four tabs: **Content**, **Layout**, **Animation**, and **Effects**. Sections vary by layer type.
 
-### Position, size, and layer
+### Layout
 
-- X and Y position.
-- Width and height.
-- Z-index (stacking order).
+- Position (X, Y), size, and z-order.
+- Transform: rotation.
+- **Visibility Condition** - show this layer only when a condition matches the incoming event. For example, a crown image only when `tier == 3000`.
 
-### Transform
+### Animation
 
-- **Rotation** - rotates the layer in degrees.
-- **Skew X and Skew Y** - shears the layer horizontally or vertically.
+- Entrance and exit animation presets with direction, duration, and delay.
+- **Enable Keyframe Animator** switches the layer to a custom timeline instead (see below).
 
-### Visibility condition
+### Effects
 
-Set a condition that controls whether this layer is visible during playback. The layer will only show when the condition is met for the incoming event. For example, you can show a crown image only when `tier == 3000`.
+- Opacity, blend mode, color adjustments (brightness, contrast, saturation, hue, grayscale, sepia, invert, blur), and a tint overlay.
 
-### Animations
+### Text layers (Content tab)
 
-Each layer can have a show animation (plays when the alert starts) and a hide animation (plays before the alert ends).
+- **Content** - the text, with `{{fieldName}}` placeholders like `{{user}}`. An **Insert a variable** button opens a searchable picker; a common-variables list shows fields for the alert's event type.
+- **Variable Style** - different size and weight for the variable portions of the text.
+- **Typography** - font family (Google Fonts supported), size, weight, style, letter spacing, line height.
+- **Alignment** - horizontal, vertical, padding.
+- **Color** - text color, background, opacity.
+- **Text Shadow** - offset, blur, and color.
+- **Text Outline** - a letter stroke with width and color, for readable text on any background.
+- **Box Border** - width, style, radius, and color.
+- **Text Animation** - typewriter, marquee, and other text reveals.
 
-For each animation you can set:
+### Media layers
 
-- Type (fade, slide, scale, etc.)
-- Direction
-- Duration in milliseconds
-- Delay in milliseconds
-
-### Keyframe animator
-
-Enable the keyframe animator on a layer to animate its position, size, rotation, and opacity along a custom timeline instead of using the entry and exit animations.
-
-When keyframe mode is enabled, the keyframe timeline panel appears at the bottom of the editor. Add keyframes at specific timestamps and set the values for that layer at each point. Beacon interpolates between them during playback.
-
-### Opacity
-
-Controls the overall transparency of the layer (0 to 100).
-
-### Blend mode
-
-Sets how the layer blends with layers behind it (Normal, Multiply, Screen, Overlay, etc.).
-
-### Color adjustments
-
-Fine-tune the visual appearance of the layer:
-
-- Brightness, contrast, saturation, hue rotation.
-- Grayscale, sepia, invert effects.
-- Blur.
-
-### Tint overlay
-
-Apply a color tint on top of the layer with adjustable opacity.
-
-### Text layers
-
-- **Content** - the text to display. Use `{{fieldName}}` to insert event data, e.g. `{{user}}` for the viewer's name.
-- **Variable Style** - apply different styles to specific variables within the text (color, weight, size).
-- **Typography** - font family, font size, weight, line height.
-- **Alignment** - horizontal and vertical text alignment within the box.
-- **Color** - text color.
-- **Text Shadow** - shadow offset, blur, and color.
-- **Text Animation** - animate text appearance (typewriter, word-by-word, etc.).
-- **Box Border** - border width, style, radius, and color.
-
-### Image, GIF, and video layers
-
-- URL or pick from the media library.
-
-### Audio layers
-
-- URL or pick from the media library.
-- Volume.
-
-### HTML layers
-
-- Raw HTML content field.
+Image, GIF, video, and audio layers take a URL or a pick from the [media library](media-library.md). Audio layers also have a volume control.
 
 ---
 
-## Keyframe timeline
+## Keyframe animator
 
-When a layer has keyframe mode enabled, the keyframe timeline panel appears at the bottom of the editor. The timeline shows the duration of the alert and any keyframes set on the selected layer.
+Enable the keyframe animator on a layer to animate position, size, rotation, and opacity along a custom timeline instead of entrance and exit presets.
 
-- Click the timeline to move the scrubber and preview the animation at that point in time.
-- Click **Add Keyframe** to capture the current layer state as a keyframe at the current time.
-- Drag keyframes to adjust their timing.
-- The canvas updates in real time as you scrub to show the interpolated position.
+The timeline panel appears at the bottom of the editor:
+
+- Click the timeline to move the playhead and preview that moment; the canvas updates as you scrub.
+- **Add Keyframe** captures the layer's current state at the playhead.
+- Drag keyframes to retime them.
+- Right-click a keyframe to pick its easing curve from grouped presets with curve previews.
+- **Loop** repeats the keyframed animation, with an optional loop count.
+
+A layer is animated by its keyframes once it has at least two.

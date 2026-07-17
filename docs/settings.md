@@ -1,6 +1,6 @@
 # Settings
 
-The Settings page has four tabs: Connections, Audio, Appearance, and System. The System tab is only available in the desktop app.
+The Settings page has four tabs: Connections, Audio, Appearance, and System.
 
 ---
 
@@ -8,36 +8,37 @@ The Settings page has four tabs: Connections, Audio, Appearance, and System. The
 
 ### Streamer.bot
 
-Configure the WebSocket connection to a local Streamer.bot instance.
+Optional. Configure the WebSocket connection to a local Streamer.bot instance.
 
-- **WebSocket URL** - the address Beacon will connect to. The default is `ws://127.0.0.1:8080`. Change this if your Streamer.bot WebSocket server is on a different port or machine.
-- **Enable debug events** - when checked, Streamer.bot debug events are shown in the activity feed. These are hidden by default because they are noisy.
+- **WebSocket URL** - the address LuckyBot connects to. The default is `ws://127.0.0.1:8080`.
+- **Password** - only needed if your Streamer.bot WebSocket server has authentication enabled.
+- **Enable debug events** - shows Streamer.bot debug events in the activity feed. Hidden by default because they are noisy.
 
 Click **Save & Reconnect** after making changes.
 
-### BeaconCloud
+### OBS Studio
 
-BeaconCloud is an optional cloud relay that sends Twitch, Ko-fi, Streamlabs, and StreamElements events to the app without requiring a local Streamer.bot install.
+Connect to OBS for the OBS control page (scenes, sources, audio mixer, stream and record controls).
 
-To connect, paste your connection token and click **Save & Connect**. Get a token at [cloud.beaconalerts.app](https://cloud.beaconalerts.app).
+1. In OBS, open **Tools > WebSocket Server Settings** and enable the server.
+2. Enter the **Address** (default `localhost:4455`) and the server **Password**.
+3. Click **Connect**.
 
-You can also click **Validate** first to confirm the token is valid and see which account it belongs to before saving.
+The status dot shows Disconnected, Connecting, or Connected. Click **Disconnect** to drop the connection.
 
-The status indicator shows the current connection state:
+### LuckyBot Cloud
 
-- Green dot: connected
-- Yellow dot: connecting or reconnecting
-- Red dot: error (token rejected or subscription expired)
+Optional. LuckyBot Cloud relays events from services such as Ko-fi, Streamlabs, StreamElements, Fourthwall, and custom WebSocket feeds, with no local software required.
 
-Click **Disconnect** to remove the saved token and close the connection.
+Paste your connection token and click **Save & Connect**. Get a token at [cloud.luckybot.app](https://cloud.luckybot.app). Click **Validate** first to confirm the token and see which account it belongs to.
 
-See [docs.beaconalerts.app](https://docs.beaconalerts.app) for more on BeaconCloud.
+The status indicator shows the connection state. Click **Disconnect** to remove the saved token.
 
 ### Twitch Auth
 
-Beacon uses a Twitch OAuth token internally for features that need Twitch API access. The token refreshes automatically every 15 minutes.
+LuckyBot uses your Twitch login for events, chat, and channel actions. Tokens refresh automatically every 15 minutes.
 
-This section shows the current token status and expiry. Use **Refresh Auth Token** if you suspect the token is stale or expired. If no refresh token is stored, log out and log back in to re-authenticate.
+This section shows the current token status and expiry. Use **Refresh Auth Token** if you suspect the token is stale. If no refresh token is stored, log out and log back in.
 
 ---
 
@@ -47,22 +48,17 @@ Configure text-to-speech for your alerts.
 
 ### Provider
 
-Choose between **ElevenLabs** and **Amazon Polly (AWS)**.
+Choose between **ElevenLabs**, **Amazon Polly (AWS)**, and **TTS.Monster**.
 
-#### ElevenLabs
+- **ElevenLabs** - API key and Voice ID. A Browse voices link opens the ElevenLabs voice library.
+- **Amazon Polly** - AWS Access Key ID, Secret Access Key, Region, and a voice picker (Brian, Amy, Emma, Matthew, Joanna, Salli, Joey, Ruth, Stephen).
+- **TTS.Monster** - API key and Voice ID.
 
-- **API Key** - paste your ElevenLabs API key. Once saved, the key is stored encrypted and only the placeholder text changes to confirm it is set.
-- **Voice ID** - the ID of the ElevenLabs voice to use. Find voice IDs in the [ElevenLabs voice library](https://elevenlabs.io/voice-library).
-
-#### Amazon Polly
-
-- **AWS Access Key ID** and **AWS Secret Access Key** - your AWS credentials. Stored encrypted.
-- **Region** - the AWS region to use for Polly requests.
-- **Voice** - choose from a list of Polly voices. A full list is available in the [AWS documentation](https://docs.aws.amazon.com/polly/latest/dg/voicelist.html).
+All keys are stored encrypted.
 
 ### Output Device
 
-If you have more than one audio output device, a dropdown appears so you can choose which device TTS audio plays through. This only affects playback in the editor. OBS browser sources route audio through the OBS mixer regardless of this setting.
+If you have more than one audio output device, a dropdown appears so you can choose which device TTS plays through. This only affects playback in the editor. OBS browser sources route audio through the OBS mixer regardless.
 
 Click **Save** to apply changes, or **Test** to play a short sample using the current settings.
 
@@ -76,22 +72,29 @@ Click any theme card to change the dashboard color theme. The change applies imm
 
 ## System
 
-This tab is only available in the desktop app.
+### Startup
+
+- **Run LuckyBot at Windows startup**
+- **Open Activity Feed window at startup**
+- **Ask for confirmation before closing LuckyBot**
 
 ### App
 
-- **Open data folder** - opens the folder where Beacon stores its database and app files. Useful for backups or moving data to another machine.
-- **Check for updates** - manually checks for a new version. The app also checks on startup. If an update is found, it downloads in the background and prompts you to restart when ready.
-- **Export all overlays** - saves every overlay as a separate `.beacon` file to your downloads folder.
+- **Open data folder** - opens the folder where LuckyBot stores its database and app files.
+- **Check for updates** - manually checks for a new version. The app also checks on startup and updates in the background.
+- **Export all overlays** - saves every overlay as a separate `.beacon` file.
 
 ### Diagnostics Logs
 
-Export a ZIP file containing WebSocket and server logs. Use this if you need to share logs for troubleshooting. Choose a time range (last 24 hours, 3 days, 7 days, or all available) and click **Export Logs ZIP**.
+Export a ZIP of WebSocket and server logs for troubleshooting. Choose a time range (last 24 hours, 3 days, 7 days, or all available) and click **Export Logs ZIP**.
 
 ### Backups
 
-Beacon takes a database snapshot automatically before each update. You can also create one manually at any time.
+LuckyBot takes a database snapshot automatically before each update, and can take them on a schedule.
 
-Each backup shows the app version it was taken on and the timestamp. Click **Restore** to roll back to that snapshot. The app will restart after a successful restore.
+- **Automatic scheduled backups** - toggle on and pick a frequency (Daily, Weekly, Monthly, or Custom), a time of day, and the day where it applies.
+- **Skip while I'm live** - postpones a scheduled backup if you are streaming.
+- **Keep the last N backups** - how many snapshots to retain (2 to 50).
+- **Back up now** - takes a manual snapshot at any time.
 
-If the installer for that version is not in the backup folder, you will be prompted to place it there for a full rollback. You can also choose **Restore database only** to restore just the data without reinstalling that version.
+Each backup shows the app version it was taken on and the timestamp. Click **Restore** to roll back to that snapshot. If the installer for that version is not in the backup folder, you can restore the database only.

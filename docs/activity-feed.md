@@ -1,93 +1,64 @@
 # Activity Feed
 
-The activity feed shows events from Streamer.bot and BeaconCloud in real time. Use it to monitor what is happening on your stream and check event data when building alert conditions.
+The activity feed shows stream events from every connected source in real time. Use it to monitor what is happening, replay events, and check event data when building alert conditions.
 
 ---
 
 ## Event sources
 
-Events come from two places:
+Events arrive from up to three places:
 
-- **Streamer.bot** - connected over a local WebSocket. Fires Twitch events and any custom actions you have set up.
-- **BeaconCloud** - connected via a cloud token. Sends Twitch, Ko-fi, Streamlabs, and StreamElements events without requiring a local Streamer.bot install.
+- **Twitch** - native events from your Twitch login. Always active.
+- **Streamer.bot** - optional, over a local WebSocket. Adds YouTube events and anything else your Streamer.bot connects to.
+- **LuckyBot Cloud** - optional, via a cloud token. Relays services such as Ko-fi, Streamlabs, StreamElements, Fourthwall, and custom WebSocket feeds.
 
-Both can be active at the same time. Set up connections in **Settings > Connections**.
+All can be active at once; duplicate copies of the same event are collapsed automatically. Connections are set up in **Settings > Connections**.
+
+The feed header also shows a viewer-count pill and live bars for ad breaks, hype trains, polls, predictions, and outgoing raids while they are running, plus a **Copy OBS dock URL** button so the feed can run as a custom browser dock inside OBS.
 
 ---
 
 ## The event list
 
-Each row in the feed shows:
+Each row shows the event type as a colored badge, the viewer's name, a summary (tier, months, amount, message), and the arrival time. Click a row to expand the full payload as key/value pairs.
 
-- The event type as a colored badge (Follow, Sub, Raid, etc.)
-- The viewer's display name
-- A summary of the event details (tier, months, amount, message, etc.)
-- The time the event arrived
-
-Click any row to expand it and see the full event payload as key/value pairs.
+**Mark all read** and **Clear history** live at the top of the feed. The feed keeps the last 1000 events and they persist between app restarts.
 
 ---
 
 ## Tabs
 
-The tab bar at the top groups events by service (Twitch, YouTube, Ko-fi, StreamElements, etc.). Click a tab to filter the feed to that service.
+The tab bar groups events by service (Twitch, YouTube, and so on), plus an **All** tab. Click the **+** button to add or remove service tabs.
 
-Click the **+** button at the right end of the tab bar to add service tabs. Right-click any tab to filter which event types appear for that service or to remove the tab.
+Right-click any service tab for:
 
----
-
-## Filtering event types
-
-Some event types are hidden by default because they are noisy and not usually useful, such as chat messages, viewer count updates, and connection lifecycle events.
-
-Right-click any service tab and choose **Filter events** to open a searchable list of event types for that service. Toggle each type on or off, or use the select all, deselect all, and reset to defaults options.
+- **Filter events** - a searchable list of that service's event types. Toggle each on or off, or use select all, deselect all, and reset to defaults. Noisy types like chat messages and viewer-count updates are hidden by default.
+- **Remove tab**
 
 ---
 
 ## Replaying events
 
-Click **Replay** on any expanded event row to send that event through your overlays as if it had just arrived live. All overlays will process the event, evaluate variant conditions, and queue any matching alerts.
-
-The button label briefly changes to **Fired** to confirm the event was dispatched.
+Click **Replay** on any event row to send that event through your overlays as if it had just arrived. Overlays evaluate variant conditions and queue matching alerts exactly like a live event.
 
 ---
 
 ## Customizing event display
 
-Each event type can be customized to show different information or use different colors. Click **Customize** on any expanded event row to enter edit mode.
+Click **Customize** on any expanded event row to change how that event type renders:
 
-From there you can set:
+- **Label** - override the badge text.
+- **User template** and **Meta template** - `{{fieldKey}}` templates for the name and summary columns, with insert buttons for the available fields.
+- **Colors and sizes** for the badge, user text, and meta text.
 
-- **Label** - override the badge text for this event type
-- **User template** - a `{{fieldKey}}` template for the name column
-- **Meta template** - a `{{fieldKey}}` template for the summary column, or toggle individual fields on or off
-- **Badge color and background**
-- **User text color and size**
-- **Meta text color and size**
-
-Insert buttons next to each template input let you add field tokens at the cursor position.
-
-Click **Reset** to remove all customizations for that event type.
-
-Customizations are saved to your browser's local storage and persist between sessions.
+Click **Reset** to remove the customizations for that type. Customizations persist between sessions.
 
 ---
 
 ## Alert queue controls
 
-Below the event feed there is an **Alert Queues** panel. This lets you monitor and control your alert queues without leaving the activity feed.
+The **Alert Queues** panel below the feed monitors and controls playback without leaving the page.
 
-Global controls (apply to all queues at once):
+Global controls: **Pause Alerts / Resume**, **Skip Alert**, **Clear Queue**, **Mute TTS / Unmute TTS**, and **Reload OBS** (reloads every connected browser source).
 
-- **Pause / Resume** - stops new alerts from playing across all queues. Events that arrive while paused stay in the queue.
-- **Skip** - cuts the currently playing alert short on every queue.
-- **Clear** - drops all queued alerts on every queue.
-- **Mute TTS / Unmute TTS** - silences or restores text-to-speech across all queues.
-
-Expand the panel with the arrow to see per-queue controls. Each row shows the queue name, blocking or non-blocking status, which overlays are assigned, the currently playing alert, and how many are waiting. The same pause, skip, clear, and mute controls are available per queue.
-
----
-
-## Event storage
-
-The feed keeps the last 1000 events in local storage. They persist between app restarts.
+Expand the panel for per-queue rows showing the queue name, blocking or non-blocking status, assigned overlays, the currently playing alert, and the waiting count, with the same pause, skip, clear, and mute controls per queue.
