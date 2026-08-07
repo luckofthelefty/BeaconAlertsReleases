@@ -40,6 +40,14 @@ LuckyBot uses your Twitch login for events, chat, and channel actions. Tokens re
 
 This section shows the current token status and expiry. Use **Refresh Auth Token** if you suspect the token is stale. If no refresh token is stored, log out and log back in.
 
+### Spotify
+
+Lets chat bot commands control Spotify (play, pause, skip) and lets viewers queue song requests. Playback control needs Spotify Premium, and Spotify must be playing on a device.
+
+Uses your own free Spotify app: create one at developer.spotify.com/dashboard, add `beacon://spotify-callback` as a Redirect URI, and paste its Client ID and Secret here, then click **Connect Spotify**. If a music overlay already has Spotify credentials saved, **Copy from my music overlay** reuses them, and you still authorize once for playback control. This connection is separate from a music overlay's own Spotify connection (different permissions), though the same Spotify app works for both.
+
+Use **Test** to confirm the connection is working, and **Disconnect** to remove it.
+
 ---
 
 ## Audio
