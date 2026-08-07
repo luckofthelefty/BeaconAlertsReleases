@@ -96,6 +96,7 @@ When more than one source delivers the same Twitch event, LuckyBot fires exactly
 - [Widgets](widgets.md) - goals, counters, and live stats on screen
 - [Chat](chat.md) - the built-in chat client and moderation tools
 - [Chat Bot](chat-bot.md) - commands, counters, timers, currency, song requests, and spam filters
+- [Commands](commands.md) - every response type, variable, and Multiple actions step, with examples
 - [Stream Tools](stream-tools.md) - polls, predictions, channel points, OBS control, captions
 - [Activity Feed](activity-feed.md) - view and replay stream events
 - [Queues](queues.md) - control how alerts are ordered and timed

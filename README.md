@@ -44,9 +44,12 @@ Chat
 
 Chat bot
 - Custom commands with variables, cooldowns, permission levels, and counters (deaths, wins, anything)
-- Multi-action responses: conditions, fetches, variables, delays, and sound alerts from a single command
+- Multi-action responses: over two dozen steps including conditions, fetches, variables, delays, OBS control, currency, custom scripts, and sound alerts, from a single command
 - Counters can be dropped onto an overlay in one click and update live as commands run
-- Timed messages, quotes, spam filters, and banned words
+- Timed messages, walk ons (greet a viewer's first chat of the stream), viewer queues, and quotes
+- A currency with a shop, and chat games (slots, roulette, heist) that bet it
+- Spotify song requests from chat, with mod controls and a fallback playlist
+- Spam filters and banned words
 - Runs from your own account or a separate bot account, server-side, even with the dashboard closed
 
 Activity feed
@@ -103,6 +106,7 @@ Download the latest installer from the [Releases](https://github.com/luckofthele
 - [Widgets](docs/widgets.md)
 - [Chat](docs/chat.md)
 - [Chat Bot](docs/chat-bot.md)
+- [Commands](docs/commands.md)
 - [Stream Tools](docs/stream-tools.md)
 - [Activity Feed](docs/activity-feed.md)
 - [Queues](docs/queues.md)

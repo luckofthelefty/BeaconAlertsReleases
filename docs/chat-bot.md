@@ -21,9 +21,7 @@ Each command has:
   - **Sound** - plays a sound through a Sound Alerts overlay. Pick a file from the media library or a URL, set the volume, trim the start and end on a waveform, and choose which Sound Alerts overlay plays it (queued or overlapping).
   - **Multiple actions** - a step builder that runs actions top to bottom: send messages, set variables, fetch URLs, branch on conditions, adjust counters, wait, and play sounds, all from one command.
 
-### Variables
-
-Responses can use `$(...)` variables, inserted from chips: `$(user)`, `$(touser)`, `$(args)`, `$(1)`, `$(count)`, `$(channel)`, `$(commandname)`, `$(game)`, `$(title)`, `$(uptime)`, `$(followage)`, `$(followcount)`, `$(viewers)`, `$(quote)`, `$(commands)`, `$(random 1-100)`, `$(pick a|b|c)`, `$(math a+b)`, `$(time)`, `$(date)`, `$(urlencode text)`, `$(urlfetch url)`, and `$(customapi url)`.
+See [Commands](commands.md) for the full list of variables and every Multiple actions step, with examples.
 
 ---
 
